@@ -39,7 +39,7 @@ $ npm install --legacy-peer-deps
 $ npm run start
 
 # watch mode
-$ npm run start:dev
+$ npm run start:all
 
 # production mode
 $ npm run start:prod
