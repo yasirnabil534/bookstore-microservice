@@ -1,6 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { join } from 'path';
 import { BooksAppModule } from './books-app.module';
 
 async function bootstrap() {
@@ -8,9 +9,11 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   const microservice = await app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.TCP,
+    transport: Transport.GRPC,
     options: {
-      port: configService.get('BOOK_SERVICE_PORT') || 3002,
+      package: 'book',
+      protoPath: join(__dirname, 'proto/book.proto'),
+      url: `localhost:${configService.get('BOOK_SERVICE_PORT') || 3002}`,
     },
   });
   await microservice.listen();

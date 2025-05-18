@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { GrpcMethod } from '@nestjs/microservices';
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
@@ -8,28 +8,28 @@ import { UpdateBookDto } from './dto/update-book.dto';
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}
 
-  @MessagePattern('book.create')
-  create(@Payload() createBookDto: CreateBookDto) {
+  @GrpcMethod('BookService', 'Create')
+  create(createBookDto: CreateBookDto) {
     return this.booksService.create(createBookDto);
   }
 
-  @MessagePattern('book.findAll')
+  @GrpcMethod('BookService', 'FindAll')
   findAll() {
-    return this.booksService.findAll();
+    return { books: this.booksService.findAll() };
   }
 
-  @MessagePattern('book.findOne')
-  findOne(@Payload() id: number) {
-    return this.booksService.findOne(id);
+  @GrpcMethod('BookService', 'FindOne')
+  findOne(data: { id: number }) {
+    return this.booksService.findOne(data.id);
   }
 
-  @MessagePattern('book.update')
-  update(@Payload() updateBookDto: UpdateBookDto) {
+  @GrpcMethod('BookService', 'Update')
+  update(updateBookDto: UpdateBookDto) {
     return this.booksService.update(updateBookDto.id, updateBookDto);
   }
 
-  @MessagePattern('book.remove')
-  remove(@Payload() id: number) {
-    return this.booksService.remove(id);
+  @GrpcMethod('BookService', 'Remove')
+  remove(data: { id: number }) {
+    return this.booksService.remove(data.id);
   }
 }

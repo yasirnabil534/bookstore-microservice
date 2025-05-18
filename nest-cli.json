@@ -5,7 +5,14 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "webpack": true,
-    "tsConfigPath": "apps/bookstore-api-gateway/tsconfig.app.json"
+    "tsConfigPath": "apps/bookstore-api-gateway/tsconfig.app.json",
+    "assets": [
+      {
+        "include": "proto/*.proto",
+        "watchAssets": true
+      }
+    ],
+    "watchAssets": true
   },
   "monorepo": true,
   "root": "apps/bookstore-api-gateway",
@@ -25,7 +32,14 @@
       "entryFile": "main",
       "sourceRoot": "apps/users/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/users/tsconfig.app.json"
+        "tsConfigPath": "apps/users/tsconfig.app.json",
+        "assets": [
+          {
+            "include": "proto/*.proto",
+            "watchAssets": true
+          }
+        ],
+        "watchAssets": true
       }
     },
     "books": {
@@ -34,7 +48,14 @@
       "entryFile": "main",
       "sourceRoot": "apps/books/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/books/tsconfig.app.json"
+        "tsConfigPath": "apps/books/tsconfig.app.json",
+        "assets": [
+          {
+            "include": "proto/*.proto",
+            "watchAssets": true
+          }
+        ],
+        "watchAssets": true
       }
     }
   }
