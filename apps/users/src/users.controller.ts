@@ -1,16 +1,13 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
+import { GrpcMethod } from '@nestjs/microservices';
 import { UsersService } from './users.service';
 
 @Controller()
 export class UsersController {
-  getHello(): any {
-   return 'Hello World!';
-  }
   constructor(private readonly usersService: UsersService) {}
 
-  @MessagePattern('users.findAll')
+  @GrpcMethod('UserService', 'FindAll')
   findAll() {
-    return this.usersService.findAll();
+    return { users: this.usersService.findAll() };
   }
 }

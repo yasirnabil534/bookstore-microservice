@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-
+import { join } from 'path';
 import { BooksController } from './books.controller';
 import { BooksService } from './books.service';
 
@@ -11,10 +11,11 @@ import { BooksService } from './books.service';
       {
         name: 'BOOK_CLIENT',
         useFactory: (configService: ConfigService) => ({
-          transport: Transport.TCP,
+          transport: Transport.GRPC,
           options: {
-            host: 'localhost',
-            port: configService.get('BOOK_SERVICE_PORT') || 3002,
+            package: 'book',
+            protoPath: join(process.cwd(), 'apps/books/src/proto/book.proto'),
+            url: `localhost:${configService.get('BOOK_SERVICE_PORT') || 3002}`,
           },
         }),
         inject: [ConfigService],
